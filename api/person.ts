@@ -6,7 +6,9 @@ import mysql from "mysql";
 export const router = express.Router();
 
 router.get("/sert_all", (req, res) => {
-  const sql = "select * from HW_5_person";
+  const sql = 
+  "select HW_5_person.name_person, HW_5_person.img_person, HW_5_person.info_person, HW_5_person.type, HW_5_movie.name_movie " + 
+  "from HW_5_person INNER JOIN HW_5_movie ON HW_5_movie.id_movie = HW_5_person.id_movie";
   conn.query(sql, (err, result) => {
     res.status(200);
     res.json(result);
@@ -14,7 +16,10 @@ router.get("/sert_all", (req, res) => {
 });
 
 router.get("/sert_type/stars", (req, res) => {
-  const sql = "select * from HW_5_person where type = 'stars'";
+  const sql = 
+  "select HW_5_person.name_person, HW_5_person.img_person, HW_5_person.info_person, HW_5_person.type, HW_5_movie.name_movie " + 
+  "from HW_5_person INNER JOIN HW_5_movie ON HW_5_movie.id_movie = HW_5_person.id_movie where type = 'stars'";
+  // const sql = "select * from HW_5_person where type = 'stars'";
   conn.query(sql, (err, result) => {
     res.status(200);
     res.json(result);
@@ -22,7 +27,10 @@ router.get("/sert_type/stars", (req, res) => {
 });
 
 router.get("/sert_type/creator", (req, res) => {
-  const sql = "select * from HW_5_person where type = 'creator'";
+  // const sql = "select * from HW_5_person where type = 'creator'";
+  const sql = 
+  "select HW_5_person.name_person, HW_5_person.img_person, HW_5_person.info_person, HW_5_person.type, HW_5_movie.name_movie " + 
+  "from HW_5_person INNER JOIN HW_5_movie ON HW_5_movie.id_movie = HW_5_person.id_movie where type = 'creator'";
   conn.query(sql, (err, result) => {
     res.status(200);
     res.json(result);

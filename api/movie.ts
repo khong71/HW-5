@@ -5,8 +5,28 @@ import mysql from "mysql";
 
 export const router = express.Router();
 
+//มีเเค่หนัง
 router.get("/", (req, res) => {
   const sql = "select * from HW_5_movie";
+  conn.query(sql, (err, result) => {
+    res.status(200);
+    res.json(result);
+  });
+});
+
+//ตอนเพิ่มหนังยังไม่มีนักเเสดง
+router.get("/:name", (req, res) => {
+  const name = req.params.name;
+  const sql = "select * from HW_5_movie WHERE HW_5_movie.name_movie = ?";
+  conn.query(sql, [name], (err, result) => {
+    res.status(200);
+    res.json(result);
+  });
+});
+
+//มีคนด้วย
+router.get("/all", (req, res) => {
+  const sql = "select * from HW_5_movie INNER JOIN `HW_5_person` ON HW_5_movie.id_movie = HW_5_person.id_movie";
   conn.query(sql, (err, result) => {
     res.status(200);
     res.json(result);
@@ -23,10 +43,10 @@ router.get("/sert_nameMovie/:name", (req, res) => {
   });
 });
 
-//ค้นหาคี
+//ค้นหาคีย์
 router.get("/sert_keyMovie/:key", (req, res) => {
   const key = req.params.key;
-  const sql = "select * from HW_5_movie WHERE name_movie Like ?";
+  const sql = "select * from HW_5_movie INNER JOIN HW_5_person ON HW_5_movie.id_movie = HW_5_person.id_movie WHERE name_movie Like ?";
   conn.query(sql, [`%${key}%`],(err, result) => {
     res.status(200);
     res.json(result);
@@ -56,7 +76,7 @@ router.post("/insert_movie", (req, res) => {
 });
 
 //delete
-router.delete("/delete_movie/:id", (req, res) => {
+router.delete("/delete_movie/:id", async (req, res) => {
   const id = +req.params.id;
   let sql = "delete from HW_5_movie where id_movie = ?";
   conn.query(sql, [id], (err, result) => {
