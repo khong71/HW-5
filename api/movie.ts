@@ -87,6 +87,27 @@ router.delete("/delete_movie/:id", async (req, res) => {
     });
   });
 });
+//ลบคนก่อนเเเล้วค่อยลบหนัง
+router.delete("/delete_pmovie/:id", async (req, res) => {
+  const id = +req.params.id;
+
+  let sqlDeletePerson = "DELETE FROM HW_5_person WHERE id_movie = ?";
+  conn.query(sqlDeletePerson, [id], (err, resultDeleteStar) => {
+      if (err) throw err;
+      
+      // เมื่อลบข้อมูลในตาราง "Star" เสร็จสิ้น จึงทำการลบข้อมูลในตาราง "Person"
+      let sqlDeleteMovie = "DELETE FROM HW_5_movie WHERE id_movie = ?";
+      conn.query(sqlDeleteMovie, [id], (err, resultDeletePerson) => {
+          if (err) throw err;
+          
+          res.status(201).json({
+              deleted_star: resultDeleteStar.affectedRows,
+              deleted_person: resultDeletePerson.affectedRows
+          });
+      });
+  });
+});
+
 
 //เเก้ไข
 router.put("/update_movie/:id", async (req, res) => {
