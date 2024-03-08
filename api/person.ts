@@ -14,7 +14,18 @@ router.get("/sert_all", (req, res) => {
     res.json(result);
   });
 });
-
+//
+router.get("/sert_name/:name", (req, res) => {
+  const name = req.params.name;
+  const sql = 
+  "select HW_5_person.name_person, HW_5_person.img_person, HW_5_person.info_person, HW_5_person.type, HW_5_movie.name_movie " + 
+  "from HW_5_person INNER JOIN HW_5_movie ON HW_5_movie.id_movie = HW_5_person.id_movie where name_person = ?";
+  conn.query(sql, [name], (err, result) => {
+    res.status(200);
+    res.json(result);
+  });
+});
+//type
 router.get("/sert_type/stars", (req, res) => {
   const sql = 
   "select HW_5_person.name_person, HW_5_person.img_person, HW_5_person.info_person, HW_5_person.type, HW_5_movie.name_movie " + 
@@ -25,7 +36,7 @@ router.get("/sert_type/stars", (req, res) => {
     res.json(result);
   });
 });
-
+//type
 router.get("/sert_type/creator", (req, res) => {
   // const sql = "select * from HW_5_person where type = 'creator'";
   const sql = 
